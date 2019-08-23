@@ -1,10 +1,12 @@
+from flask_login import UserMixin
 from sqlalchemy.sql import func
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
+from app import login
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
 
     __tablename__ = 'users'
 
@@ -49,7 +51,7 @@ class User(db.Model):
         onupdate=func.now()
     )
     permissions = db.relationship(
-        'user_permissions',
+        'UserPermission',
         backref='user',
         lazy='dynamic'
     )
@@ -68,3 +70,8 @@ class User(db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
