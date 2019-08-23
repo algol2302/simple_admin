@@ -25,12 +25,13 @@
 
         <nav class="my-2 my-md-0 mr-md-3">
             <a class="p-2 text-dark" href="{{ url_for('index') }}">Home</a>
+            <a class="p-2" href="{{ url_for('register') }}">Click to Register!</a>
+            {% if current_user.is_anonymous %}
+                <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Sign up</a>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
         </nav>
-        {% if current_user.is_anonymous %}
-            <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Sign up</a>
-        {% else %}
-            <a class="btn btn-outline-primary" href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
     </div>
 
     {% with messages = get_flashed_messages() %}
