@@ -18,28 +18,8 @@ from app.models import User
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'admin'}
-
-    users = [
-        {
-            'username': 'admin',
-            'first_name': 'Admin',
-            'last_name': 'Adminsky'
-        },
-        {
-            'username': 'algol',
-            'first_name': 'Alexander',
-            'last_name': 'Golovnya'
-        },
-        {
-            'username': 'test',
-            'first_name': 'Test',
-            'last_name': 'Testov'
-        },
-
-    ]
-
-    return render_template('index.html', title='Home', user=user, users=users)
+    users = User.query.all()
+    return render_template('index.html', title='Home', users=users)
 
 
 @app.route('/login', methods=['GET', 'POST'])
